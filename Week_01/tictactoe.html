@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        br {
+            height: 0;
+        }
+
+        .item {
+            background-color: green;
+            border: 0.5px solid white;
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            line-height: 40px;
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div id="board"></div>
+    <script>
+        let boards = [
+            [0,0,0],
+            [0,0,0],
+            [0,0,0]
+        ];
+        let color = 1;
+        function show() {
+            let board = document.getElementById('board');
+            board.innerHTML=null
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    const element = document.createElement('div');
+                    element.classList.add('item')
+                    element.innerText = boards[i][j] == 1 ? "⭕️": boards[i][j] == 2 ? "❌" : "";
+                    element.addEventListener('click', ()=>userMove(i,j))
+                    board.appendChild(element);
+                }
+                const element = document.createElement('br');
+                board.appendChild(element);
+
+            }
+        }
+
+        function copyBoards() {
+            return JSON.parse(JSON.stringify(boards));
+        }
+
+        function userMove(i,j){
+
+            if (check(i,j)) {
+                let whoWin = (3-color) == 1 ? "⭕️":"❌";
+                alert(whoWin+' win ')
+            }
+
+            if (boards[i][j] == 0) {
+                boards[i][j] = 3-color;
+                color = 3-color;
+                show();
+            }
+
+        }
+
+
+        function check(i, j){
+            let cloneBoards = copyBoards();
+            cloneBoards[i][j] = 3 - color;
+
+            {
+                //check元素所在列是否都相等
+                let win = true;
+                for (let k = 0; k < 3; k++) {
+                    if (cloneBoards[k][j] != cloneBoards[i][j]) {
+                        win = false;
+                    }
+                }
+                if (win) {
+                    return true
+                }
+            }
+
+            {
+                //check元素所在行是否都相等
+                let win = true;
+                for (let k = 0; k < 3; k++) {
+                    if (cloneBoards[i][k] != cloneBoards[i][j]) {
+                        win = false;
+                    }
+                }
+                if (win) {
+                    return true
+                }
+            }
+
+            {
+                //正对角是否都相等
+                let win = true;
+                for (let k = 0; k < 3; k++) {
+                    if (cloneBoards[k][k] != cloneBoards[i][j]) {
+                        win = false;
+                    }
+                }
+                if (win) {
+                    return true
+                }
+            }
+
+            {
+                //斜对角是否都相等
+                let win = true;
+                for (let k = 0; k < 3; k++) {
+                    if (cloneBoards[k][2-k] != cloneBoards[i][j]) {
+                        win = false;
+                    }
+                }
+                if (win) {
+                    return true
+                }
+            }
+        }
+
+        function willWin(){
+            
+        }
+
+        show();
+    </script>
+</body>
+</html>
