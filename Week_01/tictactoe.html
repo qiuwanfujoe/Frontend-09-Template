@@ -48,61 +48,71 @@
             }
         }
 
-        function copyBoards() {
+        function copyBoards(boards) {
             return JSON.parse(JSON.stringify(boards));
         }
 
         function userMove(i,j){
 
-            if (check(i,j)) {
-                let whoWin = (3-color) == 1 ? "⭕️":"❌";
-                alert(whoWin+' win ')
-            }
-
             if (boards[i][j] == 0) {
-                boards[i][j] = 3-color;
+                boards[i][j] = color;
+                if (check(color,boards)) {
+                    let whoWin = color == 1 ? "⭕️":"❌";
+                    alert(whoWin+' win ')
+                }
+
+
+
                 color = 3-color;
                 show();
+
+                if (willWin(color, boards)) {
+                    let whoWin = color == 1 ? "⭕️":"❌";
+                    console.log(whoWin+' will win ');
+                }
             }
 
         }
 
 
-        function check(i, j){
-            let cloneBoards = copyBoards();
-            cloneBoards[i][j] = 3 - color;
+        function check(color,boards){
 
             {
-                //check元素所在列是否都相等
-                let win = true;
-                for (let k = 0; k < 3; k++) {
-                    if (cloneBoards[k][j] != cloneBoards[i][j]) {
-                        win = false;
+                //check 行是否都相等
+                for (let i = 0; i < 3; i++) {
+                    let win = true;
+                    for (let k = 0; k < 3; k++) {
+                        if (boards[i][k] != color) {
+                            win = false;
+                        }
                     }
-                }
-                if (win) {
-                    return true
-                }
+                    if (win) {
+                        return true
+                    }
+                };
+                
             }
 
             {
                 //check元素所在行是否都相等
-                let win = true;
-                for (let k = 0; k < 3; k++) {
-                    if (cloneBoards[i][k] != cloneBoards[i][j]) {
-                        win = false;
+                for (let i = 0; i < 3; i++) {
+                    let win = true;
+                    for (let k = 0; k < 3; k++) {
+                        if (boards[k][i] != color) {
+                            win = false;
+                        }
                     }
-                }
-                if (win) {
-                    return true
-                }
+                    if (win) {
+                        return true
+                    }
+                };
             }
 
             {
                 //正对角是否都相等
                 let win = true;
                 for (let k = 0; k < 3; k++) {
-                    if (cloneBoards[k][k] != cloneBoards[i][j]) {
+                    if (boards[k][k] != color) {
                         win = false;
                     }
                 }
@@ -115,7 +125,7 @@
                 //斜对角是否都相等
                 let win = true;
                 for (let k = 0; k < 3; k++) {
-                    if (cloneBoards[k][2-k] != cloneBoards[i][j]) {
+                    if (boards[k][2-k] != color) {
                         win = false;
                     }
                 }
@@ -125,11 +135,25 @@
             }
         }
 
-        function willWin(){
-            
+        function willWin(color, boards){
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (boards[i][j]) {
+                        continue;
+                    }
+                    let newBoards = copyBoards(boards);
+                    newBoards[i][j] = color;
+                    if (check(color, newBoards)) {
+                        return true;
+                    }
+                    
+                }
+                
+            };
+            return false;
         }
 
-        show();
+        show(boards);
     </script>
 </body>
 </html>
