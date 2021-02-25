@@ -24,9 +24,9 @@
     <div id="board"></div>
     <script>
         let boards = [
-            [0,0,0],
-            [0,0,0],
-            [0,0,0]
+            0,0,0,
+            0,0,0,
+            0,0,0
         ];
         let color = 1;
         function show() {
@@ -36,7 +36,7 @@
                 for (let j = 0; j < 3; j++) {
                     const element = document.createElement('div');
                     element.classList.add('item')
-                    element.innerText = boards[i][j] == 1 ? "⭕️": boards[i][j] == 2 ? "❌" : "";
+                    element.innerText = boards[i*3 + j] == 1 ? "⭕️": boards[i*3 + j] == 2 ? "❌" : "";
                     element.addEventListener('click', ()=>userMove(i,j))
                     board.appendChild(element);
                 }
@@ -47,13 +47,13 @@
         }
 
         function copyBoards(boards) {
-            return JSON.parse(JSON.stringify(boards));
+            return Object.create(boards);
         }
 
         function userMove(i,j) {
 
-            if (boards[i][j] == 0) {
-                boards[i][j] = color;
+            if (boards[i*3 + j] == 0) {
+                boards[i*3 + j] = color;
                 if (check(color,boards)) {
                     let whoWin = color == 1 ? "⭕️":"❌";
                     alert(whoWin+' win ')
@@ -72,7 +72,7 @@
         function computerMove () {
             let choice = bestChoice(color, boards);
             if (choice.point) {
-                boards[choice.point[0]][choice.point[1]] = color;
+                boards[choice.point[0]*3 + choice.point[1]] = color;
             }
                 
             if (check(color,boards)) {
@@ -92,7 +92,7 @@
                 for (let i = 0; i < 3; i++) {
                     let win = true;
                     for (let k = 0; k < 3; k++) {
-                        if (boards[i][k] != color) {
+                        if (boards[i*3 + k] != color) {
                             win = false;
                         }
                     }
@@ -108,7 +108,7 @@
                 for (let i = 0; i < 3; i++) {
                     let win = true;
                     for (let k = 0; k < 3; k++) {
-                        if (boards[k][i] != color) {
+                        if (boards[k*3 + i] != color) {
                             win = false;
                         }
                     }
@@ -122,7 +122,7 @@
                 //正对角是否都相等
                 let win = true;
                 for (let k = 0; k < 3; k++) {
-                    if (boards[k][k] != color) {
+                    if (boards[k*3 + k] != color) {
                         win = false;
                     }
                 }
@@ -135,7 +135,7 @@
                 //斜对角是否都相等
                 let win = true;
                 for (let k = 0; k < 3; k++) {
-                    if (boards[k][2-k] != color) {
+                    if (boards[k*3 + 2-k] != color) {
                         win = false;
                     }
                 }
@@ -148,11 +148,11 @@
         function willWin(color, boards) {
             for (let i = 0; i < 3; i++) {
                 for (let j = 0; j < 3; j++) {
-                    if (boards[i][j]) {
+                    if (boards[i*3+j]) {
                         continue;
                     }
                     let newBoards = copyBoards(boards);
-                    newBoards[i][j] = color;
+                    newBoards[i*3+j] = color;
                     if (check(color, newBoards)) {
                         return [i,j];
                     }
@@ -176,12 +176,12 @@
             let point = null;//这里必须声明,不然就成全局变量了,导致递归出问题
             outer:for (let i = 0; i < 3; i++) {
                 for (let j = 0; j < 3; j++) {
-                    if (boards[i][j]) {
+                    if (boards[i*3+j]) {
                         continue;
                     }
 
                     let newBoards = copyBoards(boards);
-                    newBoards[i][j] = color;
+                    newBoards[i*3+j] = color;
 
                     let r = bestChoice(3-color, newBoards).result;
                     if (-r >= result) {
