@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        .item {
+            background-color: green;
+            border: 0.5px solid white;
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+            line-height: 100px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="board"></div>
+    <script>
+        let boards = [
+            0,0,0,
+            0,0,0,
+            0,0,0
+        ];
+        let color = 1;
+        function show() {
+            let board = document.getElementById('board');
+            board.innerHTML=null
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    const element = document.createElement('div');
+                    element.classList.add('item')
+                    element.innerText = boards[i*3 + j] == 1 ? "⭕️": boards[i*3 + j] == 2 ? "❌" : "";
+                    element.addEventListener('click', ()=>userMove(i,j))
+                    board.appendChild(element);
+                }
+                const element = document.createElement('br');
+                board.appendChild(element);
+
+            }
+        }
+
+        function copyBoards(boards) {
+            return Object.create(boards);
+        }
+
+        function userMove(i,j) {
+
+            if (boards[i*3 + j] == 0) {
+                boards[i*3 + j] = color;
+                if (check(color,boards)) {
+                    let whoWin = color == 1 ? "⭕️":"❌";
+                    alert(whoWin+' win ')
+                }
+
+
+
+                color = 3-color;
+                show();
+
+                computerMove();
+            }
+
+        }
+
+        function computerMove () {
+            let choice = bestChoice(color, boards);
+            if (choice.point) {
+                boards[choice.point[0]*3 + choice.point[1]] = color;
+            }
+                
+            if (check(color,boards)) {
+                let whoWin = color == 1 ? "⭕️":"❌";
+                alert(whoWin+' win ')
+            }
+
+            color = 3-color;
+            show();
+        }
+
+
+        function check(color,boards) {
+
+            {
+                //check 行是否都相等
+                for (let i = 0; i < 3; i++) {
+                    let win = true;
+                    for (let k = 0; k < 3; k++) {
+                        if (boards[i*3 + k] != color) {
+                            win = false;
+                        }
+                    }
+                    if (win) {
+                        return true
+                    }
+                };
+                
+            }
+
+            {
+                //check元素所在行是否都相等
+                for (let i = 0; i < 3; i++) {
+                    let win = true;
+                    for (let k = 0; k < 3; k++) {
+                        if (boards[k*3 + i] != color) {
+                            win = false;
+                        }
+                    }
+                    if (win) {
+                        return true
+                    }
+                };
+            }
+
+            {
+                //正对角是否都相等
+                let win = true;
+                for (let k = 0; k < 3; k++) {
+                    if (boards[k*3 + k] != color) {
+                        win = false;
+                    }
+                }
+                if (win) {
+                    return true
+                }
+            }
+
+            {
+                //斜对角是否都相等
+                let win = true;
+                for (let k = 0; k < 3; k++) {
+                    if (boards[k*3 + 2-k] != color) {
+                        win = false;
+                    }
+                }
+                if (win) {
+                    return true
+                }
+            }
+        }
+
+        function willWin(color, boards) {
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (boards[i*3+j]) {
+                        continue;
+                    }
+                    let newBoards = copyBoards(boards);
+                    newBoards[i*3+j] = color;
+                    if (check(color, newBoards)) {
+                        return [i,j];
+                    }
+                    
+                }
+                
+            };
+            return null;
+        }
+
+        function bestChoice(color, boards) {
+            let p;
+            if (p = willWin(color, boards)) {
+                return {
+                    point: p,
+                    result: 1
+                }
+            }
+
+            let result = -1;
+            let point = null;//这里必须声明,不然就成全局变量了,导致递归出问题
+            outer:for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (boards[i*3+j]) {
+                        continue;
+                    }
+
+                    let newBoards = copyBoards(boards);
+                    newBoards[i*3+j] = color;
+
+                    let r = bestChoice(3-color, newBoards).result;
+                    if (-r >= result) {
+                        result = -r;
+                        point = [i, j];
+                    }
+
+                    if (result == 1) {
+                        break outer;
+                    }
+                } 
+                
+            };
+            return {
+                point:point,
+                result:point ? result : 0
+            }
+
+        }
+
+        show(boards);
+    </script>
+</body>
+</html>
