@@ -1,0 +1,68 @@
+<script>
+
+    //abcabcabxaac   a*b*bx*c
+    function find(source, pattern) {
+        //找所有的*数量
+
+        let startCount = 0;
+        for (let i = 0; i < pattern.length; i++) {
+            if (pattern[i] === '*') {
+                startCount++;
+            }
+            
+        }
+
+        //一个*都没有, 这个逻辑有点问题,为什么只是匹配前几个字符呢,从中间开始有符合的逻辑呢?
+        if (startCount === 0) {
+            for (let i = 0; i < pattern.length; i++) {
+                if (pattern[i] !== source[i] && pattern[i]!='?')
+                    return false
+            }
+            return true;
+        }
+
+        //找第一个*之前的pattern
+        let i = 0;
+        let lastIndex = 0;
+        for (i = 0; pattern[i] !== '*'; i++) {
+            if (pattern[i] !== source[i] && pattern[i]!='?')
+                    return false
+        }
+
+        lastIndex = i;
+
+        //找中间*的pattern
+        for (let p = 0; p < startCount - 1; p++) {
+            i++;
+            let subPattern = '';
+
+            while (pattern[i] !== '*') {
+                subPattern += pattern[i];
+                i++;
+            }
+
+            let reg = new RegExp(subPattern.replace(/\?/g,"[\\s\\S]"), "g");
+            reg.lastIndex = lastIndex;
+
+            if (!reg.exec(source)) {
+                return false;
+            }
+
+            lastIndex = reg.lastIndex;
+        }
+
+
+        //找最后一个*之后的pattern
+        for (let j = 0; j < source.length - lastIndex && pattern[pattern.length - j]!=='*'; j++) {
+            if (pattern[pattern.length - j] !== source[source.length - j]
+            && pattern[pattern.length -j] !== '?') {
+                return false
+            }
+        }
+
+        return true;
+    }
+
+    find('abcabcabxaac','a*b*bx*c');
+
+</script>
