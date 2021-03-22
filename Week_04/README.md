@@ -12,14 +12,22 @@
 
 KMP算法:
     时间复杂度:m+n
+
     pattern: abcdabce
     source: abcdabcdabce
+暴力解法:
+![trie](./kmp_1.png)    
 
-    abcdabce
-    00000123
+![trie](./kmp_2.png)   
+![trie](./kmp_3.png)  
 
-    abababc
-    0001234
+查找重复子串:
+
+![trie](./kmp_4.png) 
+
+跳转表格:
+
+![trie](./kmp_5.png)   
 
 wildcard算法:
 
