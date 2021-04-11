@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>JavaScript内置对象</title>
+</head>
+
+<body>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
+    <div id="container">
+    </div>
+    <script>
+        var globalProperties = [
+            "eval",
+            "isFinite",
+            "isNaN",
+            "parseFloat",
+            "parseInt",
+            "decodeURI",
+            "decodeURIComponent",
+            "encodeURI",
+            "encodeURIComponent",
+            "Array",
+            "Date",
+            "RegExp",
+            "Promise",
+            "Proxy",
+            "Map",
+            "WeakMap",
+            "Set",
+            "WeakSet",
+            "Function",
+            "Boolean",
+            "String",
+            "Number",
+            "Symbol",
+            "Object",
+            "Error",
+            "EvalError",
+            "RangeError",
+            "ReferenceError",
+            "SyntaxError",
+            "TypeError",
+            "URIError",
+            "ArrayBuffer",
+            "SharedArrayBuffer",
+            "DataView",
+            "Float32Array",
+            "Float64Array",
+            "Int8Array",
+            "Int16Array",
+            "Int32Array",
+            "Uint8Array",
+            "Uint16Array",
+            "Uint32Array",
+            "Uint8ClampedArray",
+            "Atomics",
+            "JSON",
+            "Math",
+            "Reflect"
+        ];
+
+        let queue = [];
+        let children = [];
+        let data = {
+            id: "global",
+            children: []
+        }
+        for (var p of globalProperties) {
+            children.push({
+                id: p,
+                children: []
+            })
+        }
+        data.children = children;
+
+        const container = document.getElementById('container');
+        const width = container.scrollWidth;
+        const height = container.scrollHeight || 500;
+        const graph = new G6.TreeGraph({
+            container: 'container',
+            width,
+            height,
+            modes: {
+                default: [
+                    {
+                        type: 'collapse-expand',
+                        onChange: function onChange(item, collapsed) {
+                            const data = item.get('model');
+                            data.collapsed = collapsed;
+                            return true;
+                        },
+                    },
+                    'drag-canvas',
+                    'zoom-canvas',
+                ],
+            },
+            defaultNode: {
+                size: 26,
+                anchorPoints: [
+                    [0, 0.5],
+                    [1, 0.5],
+                ],
+            },
+            defaultEdge: {
+                type: 'cubic-horizontal',
+            },
+            layout: {
+                type: 'mindmap',
+                direction: 'H',
+                getHeight: () => {
+                    return 16;
+                },
+                getWidth: () => {
+                    return 16;
+                },
+                getVGap: () => {
+                    return 10;
+                },
+                getHGap: () => {
+                    return 100;
+                },
+                getSide: () => {
+                    return 'right';
+                },
+            },
+        });
+
+        let centerX = 0;
+        graph.node(function (node) {
+            if (node.id === 'Modeling Methods') {
+                centerX = node.x;
+            }
+
+            return {
+                label: node.id,
+                labelCfg: {
+                    position:
+                        node.children && node.children.length > 0
+                            ? 'right'
+                            : node.x > centerX
+                                ? 'right'
+                                : 'left',
+                    offset: 5,
+                },
+            };
+        });
+
+        graph.data(data);
+        graph.render();
+        graph.fitView();
+
+        if (typeof window !== 'undefined')
+            window.onresize = () => {
+                if (!graph || graph.get('destroyed')) return;
+                if (!container || !container.scrollWidth || !container.scrollHeight) return;
+                graph.changeSize(container.scrollWidth, container.scrollHeight);
+            };
+
+    </script>
+</body>
+
+</html>
