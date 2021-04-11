@@ -144,3 +144,10 @@ History:history对象保存用户上网的历史记录,从窗口打开的那一�
 
 Date:事件相关的
 
+
+浮点数表示法:
+[浮点数表示法](https://www.ruanyifeng.com/blog/2010/06/ieee_floating-point_representation.html))
+
+9 1001=1.001
+
+E=011-1023
