@@ -371,6 +371,7 @@ Transfer-Encoding: chunked /* headers */
 ### ||| 第五步 BodyParser 总结
 * Response 的 body 可能根据 Content-Type 有不同的结构，因此会采用不同的子 Parser 来解决问题
 * 文中以 TrunkedBodyParser 为例，我们同样用状态机来处理 body 的格式
+* \r表示回车 \n表示换行(新起一行)
 
 
 
