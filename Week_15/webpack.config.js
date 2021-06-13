@@ -1,6 +1,6 @@
 let path = require('path')
 module.exports = {
-    entry:"./main.js",
+    entry:"./animation-demo.js",
     mode:"development",
     devtool: 'inline-source-map',
     devServer: {
