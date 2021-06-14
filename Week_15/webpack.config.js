@@ -1,13 +1,14 @@
 let path = require('path')
 module.exports = {
     entry:"./animation-demo.js",
+    output:{
+        filename:"animation-demo.js"
+    },
     mode:"development",
     devtool: 'inline-source-map',
     devServer: {
-        contentBase: path.join(__dirname, 'dist'),
-        compress: true,
-        port: 8080,
-      },
+        contentBase: './dist',
+    },
     module:{
         rules:[
             {

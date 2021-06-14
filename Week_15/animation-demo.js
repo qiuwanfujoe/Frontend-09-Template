@@ -1,17 +1,14 @@
+import {Timeline ,Animation} from './animation'
+import {ease ,easeIn,easeOut,easeInOut} from './ease'
 
-import {Timeline, Animation} from './animation'
+let timeLine = new Timeline();
 
-let tl = new Timeline();
-window.tl = tl;
-tl.start();
+timeLine.start();
 
-window.animation = new Animation(document.querySelector('#el').style,"transform",0,100,2000,0, v=>`translateX(${v})px`)
-tl.add(animation);
+timeLine.add(new Animation(document.querySelector('#el').style,'transform',0, 500,2000, 0, easeInOut, v => `translateX(${v}px)`));
+document.querySelector('#el2').style.transition ='transform 2s ease-in-out';
+document.querySelector('#el2').style.transform ='translateX(500px)';
 
-document.querySelector('#pause').addEventListener('click',()=>{
-    tl.pause();
-})
-
-document.querySelector('#resume').addEventListener('click',()=>{
-    tl.resume();
-})
+document.querySelector("#pause-btn").addEventListener('click',() => timeLine.pause());//测试暂停
+document.querySelector("#resume-btn").addEventListener('click',() => timeLine.resume());//测试恢复
+document.querySelector("#reset-btn").addEventListener('click',() => timeLine.reset());//测试重置
