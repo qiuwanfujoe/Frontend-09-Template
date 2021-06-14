@@ -34,4 +34,6 @@
 + touchend
 + touchscancel
 
+```问题:老师打开gesture.html为什么不报跨域问题啊?```
+
 
