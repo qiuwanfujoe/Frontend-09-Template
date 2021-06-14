@@ -20,3 +20,18 @@
 
 + 实现class的私有方法,使用Symbol,唯一性
 
+#### Gesture 的基本知识
+![设计方式](./1.png)
+
+**PC 鼠标实现**
++ mousedown
++ mousemove
++ mouseup
+
+**移动设备首饰实现**
++ touchstart
++ touchmove
++ touchend
++ touchscancel
+
+

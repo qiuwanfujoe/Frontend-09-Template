@@ -1,7 +1,7 @@
 // 监听
 export class Listener {
     constructor(el, recognizer) {
-        let isListeningMouse = false; //用于防止重复监听mouseup和mousemove事件（其实我觉得也可以把mouseup和mousemove的监听拿出来，只需要判断一下event.buttons不为0才执行逻辑就行）
+        let isListeningMouse = false; //用于防止重复监听mouseup和mousemove事件
 
         let contexts = new Map();//保存多个context
 
