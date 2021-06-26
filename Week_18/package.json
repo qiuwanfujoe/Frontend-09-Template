@@ -1,0 +1,27 @@
+{
+  "name": "week_18",
+  "version": "1.0.0",
+  "description": "学习笔记 #### Mocha 测试工具",
+  "main": "add.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --require @babel/register",
+    "code-coverage": "nyc mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/register": "^7.14.5",
+    "@istanbuljs/nyc-config-babel": "^3.0.0",
+    "babel-plugin-istanbul": "^6.0.0",
+    "nyc": "^15.1.0"
+  },
+  "dependencies": {
+    "css": "^3.0.0",
+    "mocha": "^9.0.1"
+  }
+}

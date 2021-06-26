@@ -247,9 +247,9 @@ function endTagOpen(c){
         }
        return tagName(c); //收集结束标签
     }else if(c  === '>'){
-        throw Error('错误')
+        throw new Error('错误')
     }else if(c === EOF){
-        throw Error('错误')
+        throw new Error('错误')
     }else{
 
     }
@@ -374,8 +374,7 @@ function afterQuotedAttributeValue(c){
     }else if(c === EOF){
 
     }else{
-        // currentAttribute.value += c;
-        // return doubleQuotedAttributeValue; 
+        throw new Error('unexpected characters')
     }
 }
 
