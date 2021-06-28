@@ -33,7 +33,7 @@
 
 
 ### 2. 实现一个线上Web服务 | 利用Express，编写服务器（一）
-* mkdir server & cd server
+* 本机 mkdir server & cd server
 * 安装express 模版 ``` npx express-generator ```
 * 默认使用的是jade模版
 * npm install
@@ -50,6 +50,7 @@
 
 * 在虚拟server目录下 执行 ``` npm start ```
 ![设计方式](./2.png)
+    虚拟机上启动之后端口是3000, 需要设置本地8080转发到3000
 
 
 
@@ -67,10 +68,25 @@
 
 ###  6. 实现一个发布系统 | 简单了解Node.js的流
 
-* 流式传输 stream_class_stream_readable 
+* 流式传输 stream_class_stream_readable  'Content-Type':'application/actet-stream',//流式传输
+
 * Event:close data事件
 
 ###  7. 实现一个发布系统 | 改造Server
+*  在虚拟机上启动server npm start &
+*  不阻滞console,可以加 npm start &
+*  在虚拟机上新建publish-server目录
+*  在本机publish-server 上执行npm run publish
+*  在在虚拟机上新建publish-server 上启动npm start&
+*  修改publish-tool 发送的端口号为 8882
+*  在虚拟机上配置端口转发:
+![设计方式](./3.png)
+
+问题:
+
+``` publish-server 和 server 是怎么建立链接的? ```
+
+
 
 
 
