@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"node ./server.js",
-    "publish":"scp -r -P 8022 ./* gideon@127.0.0.1:/home/gideon/publish-server"
+    "start": "node ./server.js",
+    "publish": "scp -r -P 8022 ./* gideon@127.0.0.1:/home/gideon/publish-server"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "unzipper": "^0.10.11"
+  }
 }

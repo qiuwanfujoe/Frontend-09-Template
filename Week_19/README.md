@@ -33,11 +33,11 @@
 
 
 ### 2. 实现一个线上Web服务 | 利用Express，编写服务器（一）
-* 本机 mkdir server & cd server
+* 本机 ```mkdir server & cd server```
 * 安装express 模版 ``` npx express-generator ```
 * 默认使用的是jade模版
-* npm install
-* npm start, 默认端口3000
+* ```npm install```
+* ```npm start,``` 默认端口3000
 
 ### 3. 实现一个线上Web服务 | 利用Express，编写服务器（二）
 * 在虚拟机ubuntu 上安装SSH服务
@@ -57,34 +57,59 @@
 
 ###  4. 实现一个发布系统 | 用Node.js启动一个简单的Server
 
-* 实现 mkdir publish-server,
-* cd publish-server & npm init
-* 启动server node server.js
+* 实现 ```mkdir publish-server,```
+* ```cd publish-server & npm init```
+* 启动```server node server.js```
 
 ### 5. 实现一个发布系统 | 编写简单的发送请求功能
-* 发布publish tool
-* cd publish-tool & npm init 
-* 启动 node publish.js
+* 发布```publish tool```
+* ```cd publish-tool & npm init ```
+* 启动 ```node publish.js```
 
 ###  6. 实现一个发布系统 | 简单了解Node.js的流
 
-* 流式传输 stream_class_stream_readable  'Content-Type':'application/actet-stream',//流式传输
+* 流式传输 ```stream_class_stream_readable  'Content-Type':'application/actet-stream',//流式传输```
 
 * Event:close data事件
 
 ###  7. 实现一个发布系统 | 改造Server
-*  在虚拟机上启动server npm start &
-*  不阻滞console,可以加 npm start &
+*  在虚拟机上启动
+    ```server npm start &```
+*  不阻滞console,可以加 ```npm start &```
 *  在虚拟机上新建publish-server目录
-*  在本机publish-server 上执行npm run publish
-*  在在虚拟机上新建publish-server 上启动npm start&
+*  在本机publish-server 上执行```npm run publish```
+*  在在虚拟机上新建publish-server 上启动```npm start&```
 *  修改publish-tool 发送的端口号为 8882
 *  在虚拟机上配置端口转发:
 ![设计方式](./3.png)
 
 问题:
 
-``` publish-server 和 server 是怎么建立链接的? ```
+``` publish-server 和 server 是怎么建立链接的? ```  
+答: publish-server收到请求之后,文件是写在server项目里面的
+
+### 8. 实现一个发布系统 | 实现多文件发布
+1.  获取文件大小
+``` fs.stat("./sample.html", (err,stats) => {}) ```
+2. pipe方式读取流:
+
+        let file = fs.createReadStream("./sample.html")
+        file.pipe(request);
+        file.on('end', () => {
+            request.end()
+        });
+    
+3. 压缩文件:
+
+        archive.directory("./sample/",false);
+        archive.pipe(request)
+        archive.finalize() 
+
+4. 服务收到文件请求之后进行解压缩:
+
+        request.pipe(unzipper.Extract({path:'../server/public/'}));
+
+
 
 
 
