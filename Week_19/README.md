@@ -110,6 +110,22 @@
         request.pipe(unzipper.Extract({path:'../server/public/'}));
 
 
+### 9. 实现一个发布系统 | 用GitHub OAuth做一个登录实例
+
+1. 在github.com创建app https://github.com/settings/apps/gideon-toy-publish-app
+    a. https://github.com/settings/profile 找到Developer settings
+    b. new github app:
+        ``` App ID: 124058
+            Client ID: Iv1.28ff20d26f7fdad3
+            78e84f2adeac13b68ee1671096577ec1b7a6b3de
+        ```
+    c. https://github.com/login/oauth/authorize?client_id=Iv1.28ff20d26f7fdad3
+    
+2. publish-tool &publish-server:
+``` 1. publish-tool 打开 https://github.com/login/oauth/authorizeclient_id={xxxx}```
+``` 2. publish-server :auth路由:接受code 用code+clientID+client——secret换取token```
+``` 3. publish-tool 创建server,接受token,后点击发布```
+```4. publish-server:publish路由:用token获取用户信息,检查权限,接受发布```
 
 
 
