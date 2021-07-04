@@ -8,7 +8,7 @@
 
 * 安装nodejs
 
-``` sudo apt install nodejs ```
+``` sudo apt install   nodejs ```
 
 ``` 刚开始设置镜像的时候设置成了http://mirros.aliyun.ubuntu.com/ubuntu 导致后面我安装nodejs出错 ```
 
